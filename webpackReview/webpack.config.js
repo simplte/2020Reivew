@@ -1,10 +1,18 @@
 const path = require('path');
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
-    entry: './src/index.js',
+    entry:  {
+        app:'./src/index.js',
+        print: './src/print.js'
+    },
+    devtool: 'inline-source-map',
+    devServer: {
+        contentBase: './dist'
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {
@@ -21,7 +29,12 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'file-loader'
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit:  10
+                        }
+                    }
                 ]
             },
             {
@@ -34,9 +47,16 @@ module.exports = {
         
     },
     plugins: [
+        new CleanWebpackPlugin(),
         // new MiniCssExtractPlugin({
         //     filename: "[name].css",
         //     chunkFilename: "[id].css"
         //   }),
+        new HtmlWebpackPlugin({
+            title: '你好',
+            filename: 'index.html', // 输出的文件名称 如果是多级目录会在 dist文件夹下生成对应的文件夹
+            // template: './index.html' // 生成index.html的模板
+        }),
+        // 清除生成的dist
     ]
 }
