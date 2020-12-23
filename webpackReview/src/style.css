@@ -1,4 +1,5 @@
 .test{
-    background-color: aquamarine;
+    background-color: rgb(85, 81, 31);
+    color: red;
     background: url('./wx.png');
 }
