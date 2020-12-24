@@ -7,6 +7,8 @@ module.exports = {
 	entry: {
 		app: './src/index.js',
 	},
+	// 从 webpack 4 开始，也可以通过 "mode" 配置选项轻松切换到压缩输出，只需设置为 "production"。
+	// mode: 'development', webpack内置了treeshaking
 	devtool: 'inline-source-map',
 	devServer: {
 		contentBase: path.join(__dirname, 'dist'),
