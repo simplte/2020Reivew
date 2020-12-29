@@ -31,12 +31,26 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
 				use: [ 'file-loader' ]
             },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ["es2015"],
+                        },
+                    }
+                ]
+            }
         ]
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: 'webpackReview'
+            title: 'webpack复习',
+            filename: 'index1.html', 
+            template: './index.html'
         })
     ],
     output: {

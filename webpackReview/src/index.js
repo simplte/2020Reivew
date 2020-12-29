@@ -27,4 +27,6 @@ if(module.hot) {
         printMe()
     })
 }
+const bqc = 1;
 document.body.appendChild(component())
+export default bqc;

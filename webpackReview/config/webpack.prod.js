@@ -4,6 +4,6 @@ const common  = require("./webpack.common");
 module.exports = merge(common, {
     mode: 'production',
     plugins: [
-        new UglifyJsPlugin()
+        // new UglifyJsPlugin()
     ]
 })
