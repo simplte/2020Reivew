@@ -1,12 +1,13 @@
 import _ from 'lodash'
-import './style.css';
 import Icon from './wx.png';
 import printMe from './print'
 import {cube} from './math'
+import './style.less';
+
 
 function component() {
-    let el = document.createElement("div")
-    let btn = document.createElement('button')
+    var el = document.createElement("div")
+    var btn = document.createElement('button')
     el.innerHTML = _.join(['你好','webpack1'],',')
     el.classList.add('test');
     var myIcon = new Image();

@@ -23,7 +23,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.css$/,
+				test: /\.less/,
 				use: [
 					// MiniCssExtractPlugin.loader,
 					'style-loader',
@@ -53,8 +53,8 @@ module.exports = {
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			title: '你好',
-			filename: 'index.html' // 输出的文件名称 如果是多级目录会在 dist文件夹下生成对应的文件夹
-			// template: './index.html' // 生成index.html的模板
+			filename: 'index.html', // 输出的文件名称 如果是多级目录会在 dist文件夹下生成对应的文件夹
+			template: './index.html' // 生成index.html的模板
         }),
         // 分离css
 		// new MiniCssExtractPlugin({
