@@ -49,7 +49,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'webpack复习',
-            filename: 'index1.html', 
+            filename: 'index.html', 
             template: './index.html'
         })
     ],
