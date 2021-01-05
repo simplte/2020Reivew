@@ -1,20 +1,23 @@
 import _ from 'lodash'
-import Icon from './wx.png';
-import printMe from './print'
-import {cube} from './math'
-import './style.less';
+
 
 
 function component() {
     var el = document.createElement("div")
     var btn = document.createElement('button')
+    var br = document.createElement('br');
     el.innerHTML = _.join(['你好','webpack1'],',')
     el.classList.add('test');
     var myIcon = new Image();
     myIcon.src = Icon;
     el.appendChild(myIcon);
+    el.appendChild(br);
     btn.innerHTML= "点击"
-    btn.onclick = printMe
+    btn.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+     var print = module.default;
+
+     print();
+   });
     el.appendChild(btn)
 
     console.log(`当前的计算值：${cube(4)}`)
