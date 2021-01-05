@@ -4,7 +4,7 @@ const common = require('./webpack.common');
 const webpack = require('webpack');
 
 module.exports = merge(common, {
-	devtool: 'source-map',
+	// devtool: 'source-map',
 	mode: 'production',
 	plugins: [
 		new UglifyJsPlugin({

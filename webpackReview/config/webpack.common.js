@@ -62,13 +62,21 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[contenthash].bundle.js',
         path: path.resolve(__dirname, "../dist")
     },
     optimization: {
         runtimeChunk: 'single',
+        moduleIds: 'deterministic', // 保证chunk的hash值一致
         splitChunks: {
-            chunks: 'all'
+            chunks: "async",
+            cacheGroups: {
+                commons: {
+                  test: /[\\/]node_modules[\\/]/,
+                  name: 'vendors',
+                  chunks: 'all'
+                }
+              }
         }
     }
 }
