@@ -58,12 +58,19 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'webpack复习',
             filename: 'index.html', 
-            template: './index.html'
+            template: './index.html',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                collapseBooleanAttributes: true,
+                removeScriptTypeAttributes: true
+              }
         })
     ],
     output: {
         filename: '[name].[contenthash].bundle.js',
-        path: path.resolve(__dirname, "../dist")
+        path: path.resolve(__dirname, "../dist"),
+        publicPath: '/dist/'
     },
     optimization: {
         runtimeChunk: 'single',
