@@ -6,17 +6,23 @@ module.exports = {
             {
                 test: /\.js$/,
                 // loader: path.resolve(__dirname, 'loaders', 'loader1')
-                use: [
-                    'loader1',
-                    {
-                        loader: 'loader-options',
-                        options: {
-                            name:'bqc',// 这样校验就不会出错
-                            // name: false // 这样就会报错
-                            age: 14 // 因为设置了可追加属性additionalProperties为true所以加个age属性是没问题的
-                        }
-                    }
-                ]
+                // use: [
+                //     'loader1',
+                //     {
+                //         loader: 'loader-options',
+                //         options: {
+                //             name:'bqc',// 这样校验就不会出错
+                //             // name: false // 这样就会报错
+                //             age: 14 // 因为设置了可追加属性additionalProperties为true所以加个age属性是没问题的
+                //         }
+                //     }
+                // ],
+                loader: 'babelLoader',
+                options: {
+                    presets: [
+                        '@babel/preset-env'
+                    ]
+                }
             }
         ]
     },
