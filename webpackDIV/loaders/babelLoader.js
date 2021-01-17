@@ -26,6 +26,7 @@ module.exports = function(content, map, meta) {
 
     // 使用babel编译代码
     transform(content, options).then(({code, map}) => {
+        console.log( map)
         callback(null, code, map)
     }).catch((e) => callback(e))
 }

@@ -1,4 +1,5 @@
 const path  = require("path");
+const Plugin1  = require("./plugins/Plugin1");
 module.exports = {
     // mode: 'development',
     module: {
@@ -32,5 +33,8 @@ module.exports = {
             'node_modules',
             path.resolve(__dirname, 'loaders')
         ]
-    }
+    },
+    plugins: [
+        new Plugin1()
+    ]
 }
