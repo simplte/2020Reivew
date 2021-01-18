@@ -1,7 +1,11 @@
 {
+  "scripts": {
+    "start": "node --inspect-brk ./node_modules/webpack/bin/webpack.js"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
+    "globby": "^11.0.2",
     "loader-utils": "^2.0.0",
     "tapable": "^2.2.0",
     "webpack": "^5.14.0",
