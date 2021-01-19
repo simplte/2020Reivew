@@ -41,8 +41,8 @@ module.exports = {
         // new Plugins2()
         new copyPlugin({
             from: 'public',
-            // to: '.',
-            ignore: ['index.html']
+            to: 'css',
+            ignore: ['**/index.html']
         })
     ]
 }
