@@ -1,6 +1,21 @@
 const { getAst, getCode, getDeps }  = require("./parser");
 const fs  = require("fs");
 const path  = require("path");
+
+/**
+ * 三步走：
+ * 1：根据webpack.config中配置的入口文件地址，获取入口文件信息
+ *      （入口文件信息为：1：通过 @babel/traverse 获取到的入口文件的依赖，2：通过@babel/core 和 @babel/preset-env 编译的入口文件的代码）
+ * 
+ * 2：根据入口文件信息收集依赖生成 依赖关系图谱 modules 进一步已优化关系图谱数据结构得到 depsGraph
+ * 
+ * 3：根据生成的关系图谱depsGraph 生成最终打包的资源
+ *     以入口文件开始，定义generate方法中的build方法 
+ *     build目的是为了让  使用@babel/core 和 @babel/preset-env的生成的code代码正常执行   所以build方法是根据生成code的代码如何执行来编写的
+ *     保证最终所有的依赖模块都能正常加载执行
+ *      
+ * 4：输出最后生成的bundle，通过fs模块生成对应的文件
+ */
 class Compiler {
     constructor(options = {}) {
         // webpack配置文件内容
@@ -68,7 +83,7 @@ class Compiler {
          const ast = getAst(filePath);
          // 根据入口文件的ast抽象语法树收集相关模块依赖
          const deps = getDeps(ast, filePath);
-         // 解析各个模块代码编译成es5的语法
+         // 解析当前文件依赖的各个模块代码编译成es5的语法
          const code = getCode(ast)
          return {
              filePath,
@@ -80,23 +95,38 @@ class Compiler {
     }
 
     // 生成输出资源
-    // 入口文件index.js的code
-    /*
-    "use strict";\n' +
-      '\n' +
-      'var _add = _interopRequireDefault(require("./add.js"));\n' +
-      '\n' +
-      'var _count = _interopRequireDefault(require("./count.js"));\n' +
-      '\n' +
-      'function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }\n' +
-      '\n' +
-      'console.log((0, _add["default"])(1, 2));\n' +
-      'console.log((0, _count["default"])(3, 1));
-    */
+   
+    //  depsGraph
+    //  {
+    //     'index.js': {
+    //         code: '...',
+    //         deps: {'add.js', 'count.js'}
+    //     },
+    //     'add.js': {
+    //         code: '...',
+    //         deps: {}
+    //     }
+    // }
     generate(depsGraph) {
+        // 入口文件index.js的code
+        /*
+        "use strict";\n' +
+        '\n' +
+        'var _add = _interopRequireDefault(require("./add.js"));\n' +
+        '\n' +
+        'var _count = _interopRequireDefault(require("./count.js"));\n' +
+        '\n' +
+        'function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }\n' +
+        '\n' +
+        'console.log((0, _add["default"])(1, 2));\n' +
+        'console.log((0, _count["default"])(3, 1));
+        */
         const bundle = `
             (function(depsGraph){
                 function require(module) {
+                    // eval(code)执行时code代码中需要用到的require方法 
+                    // depsGraph[module].deps[relativePath] 用于获取当前模块依赖的模块的key所对应的对象，
+                    // 层层递归，直到所有的依赖图谱执行完毕
                     function localRequire(relativePath) {
                         return require(depsGraph[module].deps[relativePath])
                     }
@@ -104,11 +134,11 @@ class Compiler {
                     var exports = {};
                     (function(require, exports, code) {
                         eval(code);
-                    })(localRequire, exports, depsGraph[moudel].code)
+                    })(localRequire, exports, depsGraph[module].code)
 
                     return exports;
                 }
-                require(${this.options.entry})
+                require('${this.options.entry}')
             })(${JSON.stringify(depsGraph)})
         `
         console.log(bundle);
