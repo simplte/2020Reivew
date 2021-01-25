@@ -5,9 +5,11 @@
  */
 import './index.css';
 import './index.less';
+import './font.Svg';
 class indexs {
 	constructor() {
 		console.log(111);
 	}
 }
+console.log(222);
 let i = new indexs();
