@@ -35,6 +35,28 @@ module.exports = {
 					// 指定输出的文件夹
 					outputPath: 'media'
 				}
+			},
+			// babel处理语法兼容性问题
+			// 1:通过以下配置以后还需要在 根路径下新建babel-config.js 完成基础的js兼容
+			// 2:按需处理js高级语法（promise等）兼容问题 使用core-js
+			// cnpm i babel-loader @babel/preset-env @babel/core -D
+			// 这里我们把需要的配置写在了babel.config.js 中
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader'
+			},
+			// eslint语法检查
+			//  cnpm i eslint eslint-loader eslint-config-airbnb-base eslint-plugin-import -D
+			// 当前配置的具体内容在 .eslintrc.js 中
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'eslint-loader',
+				options: {
+					// 自动修复
+					fix: true
+				}
 			}
 		]
 	},
