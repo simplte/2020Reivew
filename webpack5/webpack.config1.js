@@ -35,6 +35,11 @@ module.exports = {
 					name: '[hash:10].[ext]',
 					outputPath: 'others'
 				}
+			},
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader'
 			}
 		]
 	},

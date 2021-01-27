@@ -2,12 +2,11 @@ const path = require('path');
 const htmlwebpackplugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
-
 module.exports = {
 	mode: 'production',
 	entry: './src/index.js',
 	output: {
-		filename: 'js/build.js',
+		filename: 'js/dist.js',
 		path: path.resolve(__dirname, 'build')
 	},
 	module: {
@@ -20,12 +19,12 @@ module.exports = {
 					// 这个loader取代style-loader 作用：提取js中的css成单独的文件
 					MiniCssExtractPlugin.loader,
 					'css-loader',
-					'postcss-loader',
-					'less-loader'
+					'less-loader',
 					// css兼容性处理： postcss-loader postcss-preset-env
 					// 使用loader的默认配置 直接写 "postcss-loader",
 					// 需要根目录添加两个文件 .browserslistrc 用于做浏览器兼容问题
 					// postcss.config.js
+					'postcss-loader'
 				]
 			},
 			{
@@ -53,7 +52,6 @@ module.exports = {
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				enforce: true,
 				loader: 'eslint-loader',
 				options: {
 					// 自动修复
