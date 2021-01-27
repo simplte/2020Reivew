@@ -1,5 +1,5 @@
 const path = require('path');
-const htmlwebpackplugin = require('html-webpack-plugin');
+const Htmlwebpackplugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -7,8 +7,9 @@ module.exports = {
 	mode: 'production',
 	entry: './src/index.js',
 	output: {
-		filename: 'js/build.js',
-		path: path.resolve(__dirname, 'build')
+		filename: 'js/index.js',
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: './'
 	},
 	module: {
 		rules: [
@@ -28,15 +29,7 @@ module.exports = {
 					// postcss.config.js
 				]
 			},
-			{
-				exclude: /\.(html|less|js|css)$/,
-				loader: 'file-loader',
-				options: {
-					name: `[hash:10].[ext]`,
-					// 指定输出的文件夹
-					outputPath: 'media'
-				}
-			},
+
 			// babel处理语法兼容性问题
 			// 1:通过以下配置以后还需要在 根路径下新建babel-config.js 完成基础的js兼容
 			// 2:按需处理js高级语法（promise等）兼容问题 使用core-js
@@ -53,17 +46,37 @@ module.exports = {
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				enforce: true,
+				enforce: 'pre', // 同一个匹配规则下优先执行的loader配置
 				loader: 'eslint-loader',
 				options: {
 					// 自动修复
 					fix: true
 				}
+			},
+			// 处理图片资源
+			{
+				test: /\.(jpg|png|jpeg)/,
+				loader: 'url-loader',
+				options: {
+					limit: 1 * 1024,
+					name: '[hash:10].[ext]',
+					outputPath: 'images'
+				}
+			},
+			// 处理其他资源
+			{
+				exclude: /\.(html|css|less|png|jpg|jpeg|js)/,
+				loader: 'file-loader',
+				options: {
+					name: `[hash:10].[ext]`,
+					// 指定输出的文件夹
+					outputPath: 'media'
+				}
 			}
 		]
 	},
 	plugins: [
-		new htmlwebpackplugin({
+		new Htmlwebpackplugin({
 			title: '你好',
 			filename: 'index.html', // 输出的文件名称 如果是多级目录会在 dist文件夹下生成对应的文件夹
 			template: './public/index.html', // 生成index.html的模板

@@ -21,15 +21,18 @@ module.exports = {
 					'postcss-loader'
 				]
 			},
+			// 使用url-loader处理图片
 			{
 				test: /\.(jpg|png|gif)/,
-				loader: 'file-loader',
+				loader: 'url-loader',
 				options: {
-					limit: 8 * 1024
+					limit: 1 * 1024,
+					name: '[hash:10].[ext]',
+					outputPath: 'images'
 				}
 			},
 			{
-				excludes: /.\(html|css|less)/,
+				excludes: /.\(html|css|less|png|jpg|jpeg)/,
 				loader: 'file-loader',
 				options: {
 					name: '[hash:10].[ext]',
