@@ -8,8 +8,7 @@ module.exports = {
 	entry: './src/index.js',
 	output: {
 		filename: 'js/index.js',
-		path: path.resolve(__dirname, 'dist'),
-		publicPath: './'
+		path: path.resolve(__dirname, 'dist')
 	},
 	module: {
 		rules: [
@@ -19,7 +18,12 @@ module.exports = {
 					// 创建style标签，将样式加入
 					// 'style-loader',
 					// 这个loader取代style-loader 作用：提取js中的css成单独的文件
-					MiniCssExtractPlugin.loader,
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							publicPath: '../'
+						}
+					},
 					'css-loader',
 					'postcss-loader',
 					'less-loader'
@@ -60,7 +64,8 @@ module.exports = {
 				options: {
 					limit: 1 * 1024,
 					name: '[hash:10].[ext]',
-					outputPath: 'images'
+					outputPath: 'images',
+					esModule: false
 				}
 			},
 			// 处理其他资源
@@ -72,6 +77,10 @@ module.exports = {
 					// 指定输出的文件夹
 					outputPath: 'media'
 				}
+			},
+			{
+				test: /\.html$/,
+				loader: 'html-withimg-loader'
 			}
 		]
 	},
