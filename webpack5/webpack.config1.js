@@ -96,6 +96,7 @@ module.exports = {
 		port: '8080',
 		open: true,
 		compress: true,
-		contentBase: path.resolve(__dirname, 'build')
+		contentBase: path.resolve(__dirname, 'build'),
+		hot: true
 	}
 };

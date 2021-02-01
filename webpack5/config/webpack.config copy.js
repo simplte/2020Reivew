@@ -5,7 +5,7 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 
 module.exports = {
 	mode: 'production',
-	entry: [ './src/index.js', './public/index.html' ],
+	entry: './src/index.js',
 	output: {
 		filename: 'js/index.js',
 		path: path.resolve(__dirname, 'dist')
@@ -111,7 +111,6 @@ module.exports = {
 		// 启动gzip压缩
 		compress: true,
 		port: 3000,
-		// open: true,
-		hot: true // 模块热更新
+		open: true
 	}
 };
