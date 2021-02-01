@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-	mode: 'production',
+	mode: 'development',
 	entry: [ './src/index.js', './public/index.html' ],
 	output: {
 		filename: 'js/index.js',
@@ -113,5 +113,6 @@ module.exports = {
 		port: 3000,
 		// open: true,
 		hot: true // 模块热更新
-	}
+	},
+	devtool: 'cheap-source-map'
 };
