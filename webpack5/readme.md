@@ -1,7 +1,9 @@
 # webpack 性能优化
-# 开发性能优化 
-* 优化打包构建速度
-* source-map配置
+
+# 开发性能优化
+
+-   优化打包构建速度
+-   source-map 配置
 
 ```
  HMR 热模块替换
@@ -9,21 +11,21 @@
  样式文件：没有问题， style-loader MiniCssExtractPlugin.loader 内容部实现了
  js文件：默认不能使用hmr
     解决：
- html文件：默认不能使用hmr 
+ html文件：默认不能使用hmr
     解决：修改entry入口，将index.html文件加入到入口文件配置中,可以实现html文件修改页面更新，不过还不是热模块替换，修改html页面文件会刷新页面 （spa应用不用做html的hmr）
-    
+
  ---------
  source-map: 源码和构建后代码的映射技术，如果构建后的代码出错了，可以通过映射追踪代码错误的地方
  [inline-|hidden-|eval-][nosources-][cheap-[module-]]source-map
  source-map   外联  错误代码准确信息和源代码的错误位置
- inline-source-map 内联 错误代码准确信息和源代码的错误位置 
+ inline-source-map 内联 错误代码准确信息和源代码的错误位置
  hidden-source-map 外联  错误代码准确信息没有错误位置，不能追踪代码错误 隐藏源码的方式
  eval-source-map 内联 错误代码准确信息和源代码的错误位置
  nosources-source-map 外联  错误代码准确信息没有错误位置，不能追踪代码错误 隐藏源码的方式
- cheap-source-map 外联 错误代码准确信息准确到行， 
+ cheap-source-map 外联 错误代码准确信息准确到行，
  cheap-module-source-map 外联 错误代码准确信息准确到哪个位置，
 
-内联和外联的区别：1：外联会生成sourcemap文件，内联不会生成直接会输出在js文件中，            
+内联和外联的区别：1：外联会生成sourcemap文件，内联不会生成直接会输出在js文件中，
                  2：内联的构建速度更快
 
 
@@ -45,9 +47,26 @@
     更好的调试：
     source-map/ cheap-module-source-map
 ```
-   
-* 优化代码调试
+
+-   优化代码调试
 
 # 生产环境性能优化
-* 优化打包构建速度
-* 优化代码运行速度
+
+-   优化打包构建速度
+-   优化代码运行速度
+
+### 缓存优化
+
+```
+ 1:babel缓存
+    第二次打包构建速度更快
+ 2:文件资源缓存，给打包的文件名添加hash值，解决打包文件更新后浏览器继续使用缓存文件导致页面不是最新的问题
+    让代码上线运行缓存更好使用
+    三种hash值的作用：
+    hash： 每次打包构建时都会改版hash值，js和css都会通用一个hash值
+    问题:浏览器会重新请求所有的数据，这样浏览器缓存就失效了
+    chunkhash：根据chunk生成hash值，如果打包文件来源于同一个chunk那么hash值也一样
+    问题：js和css的hash值还是一样的，例如虽然只修改了js文件重新编译js和css的hash值也是一样都会发生变化
+    contenthash：根据文件内容生成的hash值，不同的文件hash值一定不同
+
+```
