@@ -8,6 +8,10 @@
     "build:dev": "npx webpack --config webpack.config.js",
     "serve:dev": "npx webpack-dev-server --config webpack.config.js"
   },
+  "sideEffects": [
+    "*.css",
+    "*.less"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,6 +20,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.12.11",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
     "core-js": "^3.8.3",
     "css-loader": "^5.0.1",
     "eslint": "^7.18.0",

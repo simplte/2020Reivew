@@ -70,3 +70,26 @@
     contenthash：根据文件内容生成的hash值，不同的文件hash值一定不同
 
 ```
+
+#### treeshaking 
+> 去除无用代码
+```
+实现treeshaking的条件：
+1：必须 使用es6模块化
+2：webpack打包环境为 production
+作用：减少代码打包体积
+
+在package.json中需要配置
+sideEffects: false  所有代码都没有副作用 都可以进行treeshaking 
+可能会导致的问题：会把css /  @babel/polyfill垫片代码 都干掉
+因此需要将不需要shaking的类型文件添加到配置中
+sideEffects： ["*.less", "*.css"]
+
+
+在webpack-dev-server 命令时，会出现以下报错
+Cannot use [chunkhash] or [contenthash] for chunk in 'js/index.[contenthash:10].js' (use [hash] instead)
+原因是webpack-dev-server下不能将js和css文件的hash缓存模式设置为contenthash或者是chunkhash，只能设置为hash模式
+解决办法：按照打包环境区分打包配置 
+production环境下一般需要contenthash这种缓存模式 解决单个文件修改所有 文件都不走缓存的问题，提高页面访问速度
+development环境下：一般是本地开发使用，基本上都是通过webpack-dev-server启动本地服务读取内存打包的文件，所以将js(output=>filename)/css(minicssextractplugins=> filename)的缓存模式改为hash模式
+```

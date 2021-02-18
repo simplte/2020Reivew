@@ -9,6 +9,9 @@ import './css/index.less';
 import './assets/font.svg';
 import print from './js/print';
 
+import { shake1 } from './js/treeshaking';
+
+shake1();
 class Indexs {
 	constructor() {
 		console.log(111);

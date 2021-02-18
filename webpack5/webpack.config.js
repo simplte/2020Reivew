@@ -2,12 +2,18 @@ const path = require('path');
 const Htmlwebpackplugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+console.log(process.env.NODE_ENV);
 module.exports = {
-	mode: 'development',
+	mode: 'production',
 	entry: [ './src/index.js', './public/index.html' ],
 	output: {
-		filename: 'js/index.[contenthash:10].js',
+		// 区分环境打包时，使用这种方式区分缓存hash值
+		// 如果是production环境，hash缓存方式还是contenthash会爆错误
+		// Cannot use [chunkhash] or [contenthash] for chunk in 'js/index.[contenthash:10].js' (use [hash] instead)
+		// 所以在development环境下 使用hash 方式的缓存  minicssplugin也是一样
+		// filename: this.mode === 'production' ? 'js/[name].[contenthash:10].js' : 'js/[name].[hash:10].js',
+		filename: 'js/index.[hash:10].js',
 		path: path.resolve(__dirname, 'dist')
 	},
 	module: {
@@ -97,6 +103,7 @@ module.exports = {
 		]
 	},
 	plugins: [
+		// new CleanWebpackPlugin(),
 		new Htmlwebpackplugin({
 			title: '你好',
 			filename: 'index.html', // 输出的文件名称 如果是多级目录会在 dist文件夹下生成对应的文件夹
@@ -111,7 +118,8 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			// 对输出的css文件重命名
-			filename: 'css/index.[contenthash:10].css'
+			// filename: this.mode === 'production' ? 'css/index.[contenthash:10].css' : 'css/index.[hash:10].css'
+			filename: 'css/index.[hash:10].css'
 		}),
 		// css压缩插件
 		new OptimizeCssAssetsWebpackPlugin()
@@ -126,5 +134,5 @@ module.exports = {
 		// open: true,
 		hot: true // 模块热更新
 	},
-	devtool: 'cheap-source-map'
+	devtool: 'nosources-source-map'
 };
