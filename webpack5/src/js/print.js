@@ -7,7 +7,7 @@ function print() {
 	console.log(content);
 	testHMRA();
 	testHMRB();
-	console.error('123');
+	// console.error('123');
 	// 对testB模块做模块热更新处理;
 	if (module.hot) {
 		module.hot.accept('./testB', () => {
