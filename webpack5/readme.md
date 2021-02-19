@@ -155,3 +155,30 @@ producton：不做eslint语法检查修复，做代码分隔
 	]
 },
 ```
+
+####  使用externals解决过大的第三方库打包过慢及首屏加载过慢的问题
+```
+webpack.config.js-> externals -> 
+以下配置是浏览器中的配置方式
+externals: {
+	jquery: 'jQuery',
+	lodash: '_'
+}
+如果需要在node环境下运行需要以下配置，
+externals:{
+  lodash:'commonjs2 _',
+  jquery:'commonjs2 jquery'
+}
+其他运行环境
+externals: {
+  "lodash": {
+        commonjs: "lodash",//如果我们的库运行在Node.js环境中，import _ from 'lodash'等价于const _ = require('lodash')
+        commonjs2: "lodash",//同上
+        amd: "lodash",//如果我们的库使用require.js等加载,等价于 define(["lodash"], factory);
+        root: "_"//如果我们的库在浏览器中使用，需要提供一个全局的变量‘_’，等价于 var _ = (window._) or (_);
+  }
+}
+
+优点：提高打包速度
+      使用cnd的资源地址可以更快的加载出所需的资源，提高页面展示速度
+```

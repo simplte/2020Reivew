@@ -21,16 +21,16 @@ module.exports = {
 			// eslint语法检查
 			//  cnpm i eslint eslint-loader eslint-config-airbnb-base eslint-plugin-import -D
 			// 当前配置的具体内容在 .eslintrc.js 中
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				enforce: 'pre', // 同一个匹配规则下优先执行的loader配置
-				loader: 'eslint-loader',
-				options: {
-					// 自动修复
-					fix: true
-				}
-			},
+			// {
+			// 	test: /\.js$/,
+			// 	exclude: /node_modules/,
+			// 	enforce: 'pre', // 同一个匹配规则下优先执行的loader配置
+			// 	loader: 'eslint-loader',
+			// 	options: {
+			// 		// 自动修复
+			// 		fix: true
+			// 	}
+			// },
 			{
 				// 以下loader只会执行一个
 				// 不能有两个配置同时处理一个类型的文件
@@ -135,4 +135,8 @@ module.exports = {
 		hot: true // 模块热更新
 	},
 	devtool: 'nosources-source-map'
+	// externals: {
+	// 	jquery: 'jQuery',
+	// 	lodash: '_'
+	// }
 };
