@@ -121,3 +121,37 @@ producton：不做eslint语法检查修复，做代码分隔
 
 2：多文件入口时，会把相同引用的第三方（node_modules）的库单独处理打包
 ```
+
+### 多进程打包
+```
+1:使用thread-loader 进行多进程打包
+2：适合大型项目，js代码较多时使用，小型项目不建议使用
+3：使用方法和普通的loader想同，在module->rules->匹配js文件，使用方式如下
+{
+	test: /\.js$/,
+	exclude: /node_modules/,
+	enforce: 'pre', // 同一个匹配规则下优先执行的loader配置
+	use: [
+		{
+			// 开启多进程打包
+			// 进程启动时间大概为600ms，进程通信时间消耗，
+			// 适合大项目打包时使用
+			loader: 'thread-loader',
+			options: {
+				workers: 2
+			}
+		},
+		<!-- 其他loader -->
+		{
+			
+		},
+		{
+			loader: 'eslint-loader',
+			options: {
+				// 自动修复
+				fix: true
+			}
+		}
+	]
+},
+```
