@@ -8,9 +8,12 @@ import './css/index.css';
 import './css/index.less';
 import './assets/font.svg';
 import print from './js/print';
-
+// import $ from 'jquery';
+// import _ from 'lodash';
 import { shake1 } from './js/treeshaking';
 
+// console.log(_);
+// console.log($);
 shake1();
 class Indexs {
 	constructor() {

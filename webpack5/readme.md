@@ -93,3 +93,31 @@ Cannot use [chunkhash] or [contenthash] for chunk in 'js/index.[contenthash:10].
 production环境下一般需要contenthash这种缓存模式 解决单个文件修改所有 文件都不走缓存的问题，提高页面访问速度
 development环境下：一般是本地开发使用，基本上都是通过webpack-dev-server启动本地服务读取内存打包的文件，所以将js(output=>filename)/css(minicssextractplugins=> filename)的缓存模式改为hash模式
 ```
+
+#### 代码分隔            
+```
+1:在webpack.config.js中添加optimization属性
+使用该属性下的splitChunk属性，该属性是一个对象
+{
+    minSize: 2000, 表示模块最小为2kb时开启压缩
+    chunks: all , 同时分隔同步和异步代码
+    automaticNameDelimiter:'_',//名称分隔符，默认是~
+    CacheGroups: { // 对 需要单独打包的第三方库进行处理
+         jquery: { // 将jquery抽出来
+            name:'jquery',
+            chunks: 'all',
+            test: /jquery\.js/,
+            enforce: true
+         }
+
+    }
+}
+
+使用过程中遇到问题：
+1：因为配置了eslint语法检查的自动修复 ，所以打包过程中会出现报错，暂时想的解决办法是 区分环境打包，
+development：做eslint语法检查修复，不做代码分隔
+producton：不做eslint语法检查修复，做代码分隔
+2：因为刚开始的打包模式production 所以打包出来的js做了代码压缩，js的名称不是配置的名称，改为development模式后打包出来的js名字就是配置的名字
+
+2：多文件入口时，会把相同引用的第三方（node_modules）的库单独处理打包
+```
