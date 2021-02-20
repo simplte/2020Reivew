@@ -53,8 +53,28 @@
 # 生产环境性能优化
 
 -   优化打包构建速度
--   优化代码运行速度
+        1：oneOf
+        2：babel缓存
+            {
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+				options: {
+					// js babel 构建缓存
+					// 第二次构建时会读取之前的缓存
+					cacheDirectory: true
+				}
+			},
+        3：多进程打包
+        4：dll
 
+-   优化代码运行速度
+        1：缓存（hash-chunkhash-contenthash）
+        2：treeshaking
+        3： code split optimization 
+        4: 懒加载和预加载
+        5：externals
+        
 ### 缓存优化
 
 ```
