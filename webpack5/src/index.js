@@ -4,8 +4,8 @@
  * 生成环境 npx webpack ./src/index.js -o ./build/build.js --mode=production
  */
 
-import './css/index.css';
-import './css/index.less';
+import '$css/index';
+import '$css/index.less';
 import './assets/font.svg';
 import $ from 'jquery';
 import _ from 'lodash';

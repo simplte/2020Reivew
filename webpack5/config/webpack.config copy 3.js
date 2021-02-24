@@ -1,12 +1,11 @@
 const path = require('path');
-const { resolve } = require('webpack');
 const Htmlwebpackplugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 console.log(process.env.NODE_ENV);
 module.exports = {
-	mode: 'development',
+	mode: 'production',
 	entry: [ './src/index.js', './public/index.html' ],
 	output: {
 		// 区分环境打包时，使用这种方式区分缓存hash值
@@ -133,45 +132,9 @@ module.exports = {
 		compress: true,
 		port: 3000,
 		// open: true,
-		hot: true, // 模块热更新
-		// 监听contentbase下的文件，如果发生变化会reload重载
-		watchContentBase: true,
-		watchOptions: {
-			// 忽略监视哪些文件
-			ignored: /node_modules/
-		},
-		// 域名
-		host: 'localhost',
-		// 不要显示启动服务器日志信息
-		clientLogLevel: 'none',
-		// 除了一些基本的启动信息以为，其他内容不显示
-		quiet: true,
-		// 如果出错了不全屏提示
-		overlay: false,
-		// 解决开发环境的跨域问题
-		proxy: {
-			// 因为浏览器和代理服务器（devSever）是没有跨域问题的，需要请求的服务器和代理服务器之间也是没有跨域问题的
-			// 浏览器请求会通过代理服务器中转请求，从而解决跨域问题
-			// 当devserver服务器接收到 /api/xxx 的请求，就会吧请求转发到另一个服务器（3000）
-			'/api': {
-				target: '代理的服务器域名',
-				// 发送请求时，请求路径重写，将 /api/xxx --> /xxx (去掉/api)
-				pathRewrite: {
-					'^/api': ''
-				}
-			}
-		}
+		hot: true // 模块热更新
 	},
-	devtool: 'nosources-source-map',
-	resolve: {
-		alias: {
-			$css: path.resolve(__dirname, 'src/css')
-		},
-		// 配置省略路径的后缀名
-		extensions: [ '.js', '.json', '.css', '.jsx' ],
-		// 告诉webpack解析模块去找哪个目录
-		modules: [ path.resolve(__dirname, 'node_modules'), 'node_modules' ]
-	}
+	devtool: 'nosources-source-map'
 	// externals: {
 	// 	jquery: 'jQuery',
 	// 	lodash: '_'
