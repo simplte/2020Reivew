@@ -171,37 +171,6 @@ module.exports = {
 		extensions: [ '.js', '.json', '.css', '.jsx' ],
 		// 告诉webpack解析模块去找哪个目录
 		modules: [ path.resolve(__dirname, 'node_modules'), 'node_modules' ]
-	},
-	optimization: {
-		splitChunks: {
-			minSize: 30000, // 3kb   表示在压缩前的最小模块大小,默认值是30kb
-			chunks: 'all', //同时分割同步和异步代码,推荐。
-			automaticNameDelimiter: '_', //名称分隔符，默认是~
-			cacheGroups: {
-				//默认的规则不会打包,需要单独定义
-				sync: {
-					// sync.js不会被打包到index.js里面
-					name: 'sync', // 如果此处不写，默认名字胃sync~[name].js (sync~index.js)
-					chunks: 'all', // 异步和非异步块之间也可以共享块
-					test: /sync\.js/,
-					enforce: true // //WebPack忽略splitChunks.minSize，splitChunks.minChunks，splitChunks.maxAsyncRequests和splitChunks.maxInitialRequests选项
-				},
-				jquery: {
-					// 将jquery抽出来
-					name: 'jquery',
-					chunks: 'all',
-					test: /jquery\.js/,
-					enforce: true
-				},
-				lodash: {
-					// 将jquery抽出来
-					name: 'lodash', // 打包到build/lodash
-					chunks: 'all',
-					test: /lodash\.js/,
-					enforce: true
-				}
-			}
-		}
 	}
 	// externals: {
 	// 	jquery: 'jQuery',
